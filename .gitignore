@@ -8,9 +8,11 @@
 !Assets/
 !Assets/Main/
 !Assets/Main/Scripts/
+!Readme.pdf
+!AIUsageReport.pdf
 
 # Allow only C# script files inside Scripts folder
-!Assets/Main/Scripts/*.cs
+!Assets/Main/Scripts/
 
 # Exclude meta files, unless you want to keep them
 *.meta

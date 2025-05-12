@@ -36,6 +36,11 @@ public class BatteryPickup : MonoBehaviour
         pickupPrompt.enabled = false;
     }
 
+    void Awake()
+    {
+        BatteryPickup.ResetBatteryCount(); // <─ new helper
+    }
+
     /// <summary>
     /// Checks for interaction input when the player is near.
     /// </summary>
@@ -82,6 +87,8 @@ public class BatteryPickup : MonoBehaviour
             pickupPrompt.enabled = true;
         }
     }
+
+    public static void ResetBatteryCount() => s_batteryCount = 1;
 
     /// <summary>
     /// Hides the pickup prompt when the player leaves range.
