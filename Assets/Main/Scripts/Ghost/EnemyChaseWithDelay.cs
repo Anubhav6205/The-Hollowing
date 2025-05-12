@@ -10,9 +10,9 @@ public class EnemyChaseWithDelay : MonoBehaviour
 {
     public enum ActionType
     {
-        StandAndChase = 1,         // wait, then chase at constant speed
-        SlowForwardThenChase,      // creep forward during delay, then chase
-        BurstChase,                // chase with speed bursts after delay
+        StandAndChase = 1, // wait, then chase at constant speed
+        SlowForwardThenChase, // creep forward during delay, then chase
+        BurstChase, // chase with speed bursts after delay
     }
 
     [Header("References")]
@@ -94,8 +94,10 @@ public class EnemyChaseWithDelay : MonoBehaviour
     /// </summary>
     public void BeginActionSequence()
     {
-        if (wakeGrowl != null)
+        if (wakeGrowl != null && wakeGrowl.enabled && wakeGrowl.gameObject.activeInHierarchy)
+        {
             wakeGrowl.Play();
+        }
 
         if (chaserObject != null)
             chaserObject.SetActive(true);
@@ -210,17 +212,40 @@ public class EnemyChaseWithDelay : MonoBehaviour
     {
         Debug.Log("chase player");
 
-        if (chaseSound != null && !chaseSound.isPlaying)
+        if (
+            chaseSound != null
+            && chaseSound.enabled
+            && chaseSound.gameObject.activeInHierarchy
+            && !chaseSound.isPlaying
+        )
+        {
             chaseSound.Play();
+        }
 
-        if (chaseGrowl != null && !chaseGrowl.isPlaying)
+        if (
+            chaseGrowl != null
+            && chaseGrowl.enabled
+            && chaseGrowl.gameObject.activeInHierarchy
+            && !chaseGrowl.isPlaying
+        )
+        {
             chaseGrowl.Play();
+        }
 
-        if (footsteps != null && !footsteps.isPlaying)
+        if (
+            footsteps != null
+            && footsteps.enabled
+            && footsteps.gameObject.activeInHierarchy
+            && !footsteps.isPlaying
+        )
+        {
             footsteps.Play();
+        }
 
         if (attackGrowl != null && attackGrowl.isPlaying)
+        {
             attackGrowl.Stop();
+        }
 
         agent.SetDestination(player.position);
     }

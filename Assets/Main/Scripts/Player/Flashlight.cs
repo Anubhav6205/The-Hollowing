@@ -78,7 +78,15 @@ public class Flashlight : MonoBehaviour
     void ShutdownFlashlight()
     {
         flashlight.SetActive(false);
-        turnOff?.Play();
+        if ( // only if component is still enabled...
+            turnOff != null
+            && turnOff.enabled
+            // …and its GameObject is active…
+            && turnOff.gameObject.activeInHierarchy
+        )
+        {
+            turnOff?.Play();
+        }
         off = true;
         on = false;
         EventManager.RaiseFlashlightToggled(false);

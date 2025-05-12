@@ -12,9 +12,6 @@ public class HouseAManager : MonoBehaviour
     // Cached reference to the AudioSource component
     private AudioSource src;
 
-    // Flag to ensure the waypoint event is only triggered once
-    private bool _popped = false;
-
     /// <summary>
     /// Called when the script instance is being loaded.
     /// Caches the AudioSource and sets loop mode.
@@ -60,13 +57,6 @@ public class HouseAManager : MonoBehaviour
     /// <param name="_">Unused ObjectBlinkLight parameter (from event)</param>
     private void StopHouseAudio(ObjectBlinkLight _)
     {
-        if (!_popped)
-        {
-            Debug.Log("HOUSE A POPPED");
-            EventManager.PopWaypoint("D1"); // Trigger waypoint pop only once
-            _popped = true;
-        }
-
         if (src.isPlaying)
             src.Stop();
     }

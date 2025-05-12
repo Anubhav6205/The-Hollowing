@@ -17,6 +17,7 @@ public class SimpleMovement : MonoBehaviour
 
     [Header("Gravity")]
     public float gravity = -9.81f;
+
     [Tooltip("Multiplier applied to gravity when falling")]
     public float fallMultiplier = 2.5f;
 
@@ -66,9 +67,12 @@ public class SimpleMovement : MonoBehaviour
     // Internal
     private CharacterController cc;
     private Vector3 velocity;
-    private float camPitch, bobTimer, stepTimer;
+    private float camPitch,
+        bobTimer,
+        stepTimer;
     private Vector3 camStart;
-    private float runTimer, walkTimer;
+    private float runTimer,
+        walkTimer;
     private bool isFatigued;
     private float _currentYawOffset = 0f;
     private float _yawOffsetVelocity;
@@ -114,8 +118,9 @@ public class SimpleMovement : MonoBehaviour
         if (grounded && velocity.y < 0f)
             velocity.y = -2f;
 
-        Vector3 input = transform.right * Input.GetAxis("Horizontal") +
-                        transform.forward * Input.GetAxis("Vertical");
+        Vector3 input =
+            transform.right * Input.GetAxis("Horizontal")
+            + transform.forward * Input.GetAxis("Vertical");
         bool moving = input.sqrMagnitude > 0.01f;
 
         bool wantRun = Input.GetKey(KeyCode.LeftShift);
@@ -167,7 +172,12 @@ public class SimpleMovement : MonoBehaviour
         camPitch = Mathf.Clamp(camPitch - my, -70f, 70f);
 
         float targetYaw = Input.GetKey(lookBackKey) ? lookBackAngle : 0f;
-        _currentYawOffset = Mathf.SmoothDamp(_currentYawOffset, targetYaw, ref _yawOffsetVelocity, lookBackSmoothTime);
+        _currentYawOffset = Mathf.SmoothDamp(
+            _currentYawOffset,
+            targetYaw,
+            ref _yawOffsetVelocity,
+            lookBackSmoothTime
+        );
 
         playerCamera.localEulerAngles = new Vector3(camPitch, _currentYawOffset, 0f);
     }
@@ -189,12 +199,17 @@ public class SimpleMovement : MonoBehaviour
             float by = isRunning ? bobYRun : bobYWalk;
 
             playerCamera.localPosition =
-                camStart + new Vector3(Mathf.Sin(bobTimer) * bx, Mathf.Abs(Mathf.Sin(bobTimer)) * by, 0f);
+                camStart
+                + new Vector3(Mathf.Sin(bobTimer) * bx, Mathf.Abs(Mathf.Sin(bobTimer)) * by, 0f);
         }
         else
         {
             bobTimer = 0f;
-            playerCamera.localPosition = Vector3.Lerp(playerCamera.localPosition, camStart, Time.deltaTime * 7f);
+            playerCamera.localPosition = Vector3.Lerp(
+                playerCamera.localPosition,
+                camStart,
+                Time.deltaTime * 7f
+            );
         }
     }
 
@@ -214,7 +229,13 @@ public class SimpleMovement : MonoBehaviour
         }
 
         AudioSource target = isRunning ? runSource : walkSource;
-        if (target != null && !target.isPlaying)
+        if (
+            target != null // only if component is still enabled...
+            && target.enabled
+            // …and its GameObject is active…
+            && target.gameObject.activeInHierarchy
+            && !target.isPlaying
+        )
         {
             StopFootsteps();
             target.loop = true;
