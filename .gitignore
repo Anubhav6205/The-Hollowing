@@ -1,0 +1,16 @@
+# Ignore everything by default
+*
+
+# Allow Git metadata
+!.gitignore
+
+# Allow folders leading to scripts
+!Assets/
+!Assets/Main/
+!Assets/Main/Scripts/
+
+# Allow only C# script files inside Scripts folder
+!Assets/Main/Scripts/*.cs
+
+# Exclude meta files, unless you want to keep them
+*.meta
